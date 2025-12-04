@@ -64,7 +64,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="bg-[var(--bg-main)] text-[var(--text-primary)] min-h-screen selection:bg-[var(--accent)] selection:text-white font-sans antialiased overflow-hidden transition-colors duration-300">
+    <div className="bg-[var(--bg-main)] text-[var(--text-primary)] min-h-screen selection:bg-[var(--accent)] selection:text-white font-sans antialiased overflow-hidden">
       {/* The Main Stage Layer */}
       <MainStage 
         state={viewState} 
