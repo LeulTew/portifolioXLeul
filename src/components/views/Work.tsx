@@ -37,15 +37,34 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
   };
 
   return (
-    <div className="w-full min-h-screen px-4 md:px-12 max-w-[1920px] mx-auto pt-24 pb-32">
-      {/* SELECTED WORKS HEADER */}
+    <div className="w-full min-h-screen px-4 md:px-12 max-w-[1920px] mx-auto pt-8 pb-32">
+      {/* HEADER with Profile Badge for View Transition */}
       <div className="mb-8 border-b border-[var(--border-color)] pb-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight mb-2">Selected Works</h1>
-            <p className="text-[var(--text-muted)] text-sm">
-              {activeCategory === 'All' ? 'All projects' : activeCategory} - {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
-            </p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          {/* Left side with profile + title */}
+          <div className="flex items-center gap-4">
+            {/* Mini Profile - View Transition Target */}
+            <div 
+              className="w-14 h-14 rounded-full overflow-hidden border-2 border-[var(--border-color)] shadow-lg flex-shrink-0"
+              style={{ viewTransitionName: 'hero-profile' } as React.CSSProperties}
+            >
+              <img 
+                src="/images/leul-profile.webp" 
+                alt="Leul Tewodros"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h1 
+                className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] tracking-tight"
+                style={{ viewTransitionName: 'hero-title' } as React.CSSProperties}
+              >
+                Selected Works
+              </h1>
+              <p className="text-[var(--text-muted)] text-sm">
+                {activeCategory === 'All' ? 'All projects' : activeCategory} - {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+              </p>
+            </div>
           </div>
           
           {/* Category Filter */}

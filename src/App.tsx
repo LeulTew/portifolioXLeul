@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from 'react';
+import { useState, useRef, useLayoutEffect, useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import { Dock } from './components/Dock';
 import { MainStage } from './components/MainStage';
@@ -11,6 +11,11 @@ const getInitialTheme = (): Theme => {
     if (saved === 'light' || saved === 'dark') return saved;
   }
   return 'dark';
+};
+
+// Check if View Transitions API is supported
+const supportsViewTransitions = () => {
+  return typeof document !== 'undefined' && 'startViewTransition' in document;
 };
 
 export default function App() {
@@ -31,11 +36,13 @@ export default function App() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const handleNavigate = (newView: ViewName, projectId?: string) => {
+  const handleNavigate = useCallback((newView: ViewName, projectId?: string) => {
     const updateState = () => {
-      setViewState({
-        currentView: newView,
-        selectedProjectId: projectId,
+      flushSync(() => {
+        setViewState({
+          currentView: newView,
+          selectedProjectId: projectId,
+        });
       });
     };
 
@@ -43,22 +50,18 @@ export default function App() {
       if (mainStageRef.current) mainStageRef.current.scrollTop = 0;
     };
 
-    const element = mainStageRef.current;
-    
-    // Check for View Transition API support
+    // Use document-level View Transitions API for browser support
     /* istanbul ignore next */
-    if (element && 'startViewTransition' in element) {
-      (element as HTMLElement & { startViewTransition: (cb: () => void) => void }).startViewTransition(() => {
-        flushSync(() => {
-          updateState();
-          scrollToTop();
-        });
+    if (supportsViewTransitions()) {
+      document.startViewTransition(() => {
+        updateState();
+        scrollToTop();
       });
     } else {
       updateState();
       scrollToTop();
     }
-  };
+  }, []);
 
   return (
     <div className="bg-[var(--bg-main)] text-[var(--text-primary)] min-h-screen selection:bg-[var(--accent)] selection:text-white font-sans antialiased overflow-hidden transition-colors duration-300">

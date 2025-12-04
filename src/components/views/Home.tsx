@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Mail, ArrowDown, Code, Briefcase, GraduationCap, Sparkles } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Code, Briefcase, GraduationCap, Sparkles } from 'lucide-react';
 import { cvData } from '../../data/cv';
 import { projectsData } from '../../data/projects';
 
@@ -7,7 +7,14 @@ interface HomeProps {
   onNavigate: (view: 'WORK' | 'ABOUT') => void;
 }
 
+// Check View Transitions support at module level
+const supportsViewTransitions = typeof document !== 'undefined' && 'startViewTransition' in document;
+
 export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
+  const handleExploreClick = () => {
+    onNavigate('WORK');
+  };
+
   return (
     <div className="w-full min-h-screen">
       {/* HERO SECTION with Parallax Effect */}
@@ -19,28 +26,47 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-[float_5s_ease-in-out_infinite_0.5s]" />
         </div>
 
-        {/* Profile Image */}
+        {/* Profile Image with View Transition */}
         <div className="relative order-first md:order-last flex-shrink-0 waterfall-item mb-8 md:mb-0">
           <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-500 via-cyan-500 to-emerald-500 blur-xl opacity-50 animate-[pulse_3s_ease-in-out_infinite]" />
-          <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-[var(--border-color)] shadow-2xl animate-[float_4s_ease-in-out_infinite]">
+          <div 
+            className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-[var(--border-color)] shadow-2xl animate-[float_4s_ease-in-out_infinite]"
+            style={{ viewTransitionName: 'hero-profile' } as React.CSSProperties}
+          >
             <img 
               src="/images/leul-profile.webp" 
               alt="Leul Tewodros"
               loading="eager"
               className="w-full h-full object-cover"
-              style={{ viewTransitionName: 'profile-image' } as React.CSSProperties}
             />
           </div>
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-full shadow-lg">
             <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
             <span className="text-xs font-medium text-[var(--text-secondary)]">Available for Work</span>
           </div>
+          
+          {/* Hidden Explore Arrow - Only show if View Transitions supported */}
+          {supportsViewTransitions && (
+            <button
+              onClick={handleExploreClick}
+              className="absolute -bottom-16 left-1/2 -translate-x-1/2 group flex flex-col items-center gap-1 text-[var(--text-muted)] hover:text-[var(--accent)] transition-all cursor-pointer"
+              aria-label="Explore my work"
+            >
+              <span className="text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">Explore</span>
+              <div className="p-2 rounded-full border border-[var(--border-color)] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)]/10 transition-all animate-bounce">
+                <ChevronDown size={16} className="group-hover:text-[var(--accent)]" />
+              </div>
+            </button>
+          )}
         </div>
 
         {/* Text Content */}
         <div className="space-y-6 z-10 text-center md:text-left md:mr-16">
           <div className="overflow-hidden">
-            <span className="inline-flex items-center gap-2 text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-4 waterfall-item">
+            <span 
+              className="inline-flex items-center gap-2 text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-4 waterfall-item"
+              style={{ viewTransitionName: 'brand-text' } as React.CSSProperties}
+            >
               PortifolioX
             </span>
             <h1 
@@ -69,11 +95,13 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)] animate-bounce">
-          <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
-          <ArrowDown size={20} />
-        </div>
+        {/* Scroll Indicator - alternative for non-VT browsers */}
+        {!supportsViewTransitions && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)] animate-bounce">
+            <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
+            <ChevronDown size={20} />
+          </div>
+        )}
       </section>
 
       {/* QUICK STATS SECTION */}
