@@ -1,14 +1,15 @@
 import React from 'react';
-import type { ViewState } from '../types';
+import type { ViewState, ViewName } from '../types';
 import { projectsData } from '../data/projects';
 import { Home } from './views/Home';
 import { Work } from './views/Work';
 import { ProjectDetail } from './views/ProjectDetail';
 import { About } from './views/About';
+import { Contact } from './views/Contact';
 
 interface MainStageProps {
   state: ViewState;
-  onNavigate: (view: 'HOME' | 'WORK' | 'ABOUT' | 'PROJECT_DETAIL', projectId?: string) => void;
+  onNavigate: (view: ViewName, projectId?: string) => void;
   containerRef: React.RefObject<HTMLElement | null>;
 }
 
@@ -39,6 +40,8 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
       }
       case 'ABOUT':
         return <About />;
+      case 'CONTACT':
+        return <Contact />;
       default:
         return <div>View not found</div>;
     }

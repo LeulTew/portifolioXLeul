@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Briefcase, User, Moon, Sun } from 'lucide-react';
+import { Home, Briefcase, User, Mail, Moon, Sun } from 'lucide-react';
 import type { ViewName, Theme } from '../types';
 
 interface DockProps {
@@ -16,6 +16,7 @@ export const Dock: React.FC<DockProps> = ({ activeView, onNavigate, theme, toggl
     { id: 'HOME', label: 'Home', icon: <Home size={20} /> },
     { id: 'WORK', label: 'Work', icon: <Briefcase size={20} /> },
     { id: 'ABOUT', label: 'About', icon: <User size={20} /> },
+    { id: 'CONTACT', label: 'Contact', icon: <Mail size={20} /> },
   ];
 
   return (

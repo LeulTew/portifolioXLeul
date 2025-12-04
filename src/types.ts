@@ -26,7 +26,7 @@ declare global {
 // }
 }
 
-export type ViewName = 'HOME' | 'WORK' | 'ABOUT' | 'PROJECT_DETAIL';
+export type ViewName = 'HOME' | 'WORK' | 'ABOUT' | 'CONTACT' | 'PROJECT_DETAIL';
 export type Theme = 'light' | 'dark';
 
 export interface Project {
