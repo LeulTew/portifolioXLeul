@@ -21,7 +21,7 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
             onSelectProject={(id) => onNavigate('PROJECT_DETAIL', id)} 
           />
         );
-      case 'PROJECT_DETAIL':
+      case 'PROJECT_DETAIL': {
         const project = projectsData.find(p => p.id.toString() === state.selectedProjectId);
         if (!project) return null;
         return (
@@ -30,6 +30,7 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
             onBack={() => onNavigate('WORK')} 
           />
         );
+      }
       case 'ABOUT':
         return <About />;
       default:
