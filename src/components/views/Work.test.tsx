@@ -17,7 +17,7 @@ describe('Work', () => {
 
   it('renders portfolio year badge', () => {
     render(<Work onSelectProject={mockSelectProject} />);
-    expect(screen.getByText('Portfolio 2024')).toBeInTheDocument();
+    expect(screen.getByText('PortfolioX 2025')).toBeInTheDocument();
   });
 
   it('renders social links', () => {

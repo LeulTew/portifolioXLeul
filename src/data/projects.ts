@@ -68,7 +68,7 @@ export const projectsData: Project[] = [
     description: "Frontend personal portfolio site",
     longDescription: "Modern personal portfolio featuring immersive **3D elements** and interactive design:\n\n• **Tech Stack**: Built with **React**, **TypeScript**, and **React-Three-Fiber**\n• **Design**: Glassmorphism aesthetics with smooth Framer Motion animations\n• **Performance**: Optimized for all devices with responsive layouts\n\nA showcase of frontend engineering and creative design skills.",
     tech: "React, TypeScript, React-Three-Fiber",
-    image: "/images/projects/portfolio.jpg",
+    image: "/images/leul-profile.webp",
     githubUrl: "https://github.com/LeulTew/PortifolioLeul",
     categories: ["Web Development", "Graphics & Algorithms"]
   },
