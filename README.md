@@ -10,7 +10,7 @@
 
 A modern, performant portfolio built with React 19, TypeScript, and View Transitions API.
 
-[Live Demo](https://portifoliox.vercel.app) | [Report Bug](https://github.com/LeulTew/portifolioXLeul/issues)
+[Live Demo](https://portifolio-x-leul.vercel.app) | [Report Bug](https://github.com/LeulTew/portifolioXLeul/issues)
 
 </div>
 
@@ -39,13 +39,6 @@ A modern, performant portfolio built with React 19, TypeScript, and View Transit
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js 18+
-- pnpm 8+
-
-### Installation
-
 ```bash
 # Clone repository
 git clone https://github.com/LeulTew/portifolioXLeul.git
@@ -56,22 +49,11 @@ pnpm install
 
 # Create environment file
 cp .env.example .env
+# Add your EmailJS credentials to .env
 
 # Start development server
 pnpm dev
 ```
-
-### Environment Variables
-
-Create a `.env` file with your EmailJS credentials:
-
-```env
-VITE_EMAILJS_SERVICE_ID=your_service_id
-VITE_EMAILJS_TEMPLATE_ID=your_template_id
-VITE_EMAILJS_PUBLIC_KEY=your_public_key
-```
-
-Get your credentials at [EmailJS](https://www.emailjs.com).
 
 ## Scripts
 
@@ -101,23 +83,6 @@ src/
 │   ├── projects.ts      # Project data
 │   └── cv.ts           # Personal info
 └── types.ts            # TypeScript types
-```
-
-## Deployment
-
-### Vercel (Recommended)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/LeulTew/portifolioXLeul)
-
-1. Import repository to Vercel
-2. Add environment variables
-3. Deploy
-
-### Manual Build
-
-```bash
-pnpm build
-# Serve dist/ folder with any static host
 ```
 
 ## Browser Support
