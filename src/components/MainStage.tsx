@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ViewState } from '../types';
 import { projectsData } from '../data/projects';
+import { Home } from './views/Home';
 import { Work } from './views/Work';
 import { ProjectDetail } from './views/ProjectDetail';
 import { About } from './views/About';
@@ -15,6 +16,11 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
   const renderContent = () => {
     switch (state.currentView) {
       case 'HOME':
+        return (
+          <Home 
+            onNavigate={(view) => onNavigate(view)} 
+          />
+        );
       case 'WORK':
         return (
           <Work 
@@ -42,8 +48,6 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
     <main 
       ref={containerRef}
       id="main-stage"
-      // Full screen, no margins. The Stage is the Universe.
-      // Uses CSS Variables for Theming: bg-[var(--bg-main)]
       className="fixed inset-0 w-full h-full bg-[var(--bg-main)] overflow-y-auto overflow-x-hidden transition-colors duration-500"
       style={{
         contain: 'layout paint',

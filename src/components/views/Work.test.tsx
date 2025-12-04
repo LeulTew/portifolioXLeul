@@ -9,24 +9,7 @@ describe('Work', () => {
     vi.clearAllMocks();
   });
 
-  it('renders hero section with name', () => {
-    render(<Work onSelectProject={mockSelectProject} />);
-    expect(screen.getByText('Leul')).toBeInTheDocument();
-    expect(screen.getByText('Tewodros.')).toBeInTheDocument();
-  });
-
-  it('renders portfolio year badge', () => {
-    render(<Work onSelectProject={mockSelectProject} />);
-    expect(screen.getByText('PortfolioX 2025')).toBeInTheDocument();
-  });
-
-  it('renders social links', () => {
-    render(<Work onSelectProject={mockSelectProject} />);
-    const githubLinks = document.querySelectorAll('a[href*="github.com"]');
-    expect(githubLinks.length).toBeGreaterThan(0);
-  });
-
-  it('renders Selected Works section', () => {
+  it('renders Selected Works heading', () => {
     render(<Work onSelectProject={mockSelectProject} />);
     expect(screen.getByText('Selected Works')).toBeInTheDocument();
   });
@@ -47,7 +30,6 @@ describe('Work', () => {
 
   it('displays filter button with All as default', () => {
     render(<Work onSelectProject={mockSelectProject} />);
-    // Find the filter button specifically
     const filterButton = screen.getByRole('button', { name: /All/i });
     expect(filterButton).toBeInTheDocument();
   });
@@ -56,25 +38,21 @@ describe('Work', () => {
     render(<Work onSelectProject={mockSelectProject} />);
     const filterButton = screen.getByRole('button', { name: /All/i });
     fireEvent.click(filterButton);
-    // Look for Web Development in the dropdown
-    const webDevOption = screen.getAllByText('Web Development')[0];
-    expect(webDevOption).toBeInTheDocument();
+    const webDevOptions = screen.getAllByText('Web Development');
+    expect(webDevOptions.length).toBeGreaterThan(0);
   });
 
   it('filters projects by category', () => {
     render(<Work onSelectProject={mockSelectProject} />);
     const filterButton = screen.getByRole('button', { name: /All/i });
     fireEvent.click(filterButton);
-    // Click the first AI/DataScience option in dropdown
     const aiOptions = screen.getAllByText('AI/DataScience');
     fireEvent.click(aiOptions[0]);
-    // The filter should have been applied (dropdown closes)
     expect(aiOptions.length).toBeGreaterThan(0);
   });
 
-  it('renders pagination when multiple pages exist', () => {
+  it('renders pagination', () => {
     render(<Work onSelectProject={mockSelectProject} />);
-    // With 23 projects and 6 per page, we should have pagination
     const pageButtons = screen.getAllByRole('button').filter(btn => btn.textContent === '1');
     expect(pageButtons.length).toBeGreaterThan(0);
   });
