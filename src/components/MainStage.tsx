@@ -48,7 +48,7 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
     <main 
       ref={containerRef}
       id="main-stage"
-      className="fixed inset-0 w-full h-full bg-[var(--bg-main)] overflow-y-auto overflow-x-hidden transition-colors duration-500"
+      className="fixed inset-0 w-full h-full bg-[var(--bg-main)] overflow-y-auto overflow-x-hidden"
       style={{
         contain: 'layout paint',
         viewTransitionName: 'main-stage'
