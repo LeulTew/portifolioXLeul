@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="https://fav.farm/✨" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#09090b" />
+    <meta
+      name="description"
+      content="Leul Tewodros - Full Stack Engineer"
+    />
+    <title>Leul Tewodros | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        /* Default Dark Mode Variables */
+        --bg-main: #09090b;
+        --text-primary: #ffffff;
+        --text-secondary: #a1a1aa; /* zinc-400 */
+        --text-muted: #52525b; /* zinc-600 */
+        --accent: #34d399; /* emerald-400 */
+        --card-bg: #18181b; /* zinc-900 */
+        --border-color: #27272a; /* zinc-800 */
+
+        --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+      }
+
+      /* Light Mode Overrides */
+      [data-theme='light'] {
+        --bg-main: #fafafa; /* zinc-50 */
+        --text-primary: #18181b; /* zinc-900 */
+        --text-secondary: #52525b; /* zinc-600 */
+        --text-muted: #a1a1aa; /* zinc-400 */
+        --accent: #059669; /* emerald-600 */
+        --card-bg: #ffffff;
+        --border-color: #e4e4e7; /* zinc-200 */
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        overflow: hidden;
+        transition: background-color 0.5s var(--ease-out-expo), color 0.5s var(--ease-out-expo);
+      }
+
+      /* =========================================
+         VIEW TRANSITION CONFIGURATION
+         ========================================= */
+
+      /* 
+       * 1. THE ZOOM EFFECT (Root)
+       */
+      
+      ::view-transition-group(root) {
+        animation-duration: 0.8s;
+        animation-timing-function: var(--ease-out-expo);
+      }
+
+      ::view-transition-old(root) {
+        animation: 0.4s fadeOutScale forwards;
+        transform-origin: center center;
+      }
+
+      ::view-transition-new(root) {
+        animation: 0.6s fadeIn forwards;
+      }
+
+      /* 
+       * 2. SHARED ELEMENT MORPH 
+       */
+      ::view-transition-group(project-image-*) {
+        z-index: 100;
+        animation-duration: 0.8s;
+        animation-timing-function: var(--ease-in-out-cubic);
+        height: 100%; 
+      }
+
+      /* 
+       * 3. INDEPENDENT DOCK ANIMATIONS 
+       */
+      ::view-transition-group(dock-toggle) {
+        animation-duration: 0.4s;
+        animation-timing-function: var(--ease-out-expo);
+      }
+      ::view-transition-image-pair(dock-toggle) {
+        isolation: isolate;
+      }
+      ::view-transition-old(dock-icon) {
+        animation: 0.2s rotateOut forwards;
+      }
+      ::view-transition-new(dock-icon) {
+        animation: 0.4s rotateIn forwards;
+      }
+
+      /* =========================================
+         KEYFRAMES
+         ========================================= */
+
+      @keyframes fadeOutScale {
+        to {
+          opacity: 0;
+          transform: scale(0.95);
+          filter: blur(10px);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes rotateOut {
+        to {
+          transform: rotate(90deg) scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      @keyframes rotateIn {
+        from {
+          transform: rotate(-90deg) scale(1); /* Start normal, rotate to normal */
+          opacity: 0;
+        }
+        to {
+          transform: rotate(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* =========================================
+         UTILITIES
+         ========================================= */
+
+      .waterfall-item {
+        opacity: 0;
+        animation: slideUp 1s var(--ease-out-expo) forwards;
+      }
+
+      .waterfall-item:nth-child(1) { animation-delay: 0.3s; }
+      .waterfall-item:nth-child(2) { animation-delay: 0.4s; }
+      .waterfall-item:nth-child(3) { animation-delay: 0.5s; }
+      .waterfall-item:nth-child(4) { animation-delay: 0.6s; }
+
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
