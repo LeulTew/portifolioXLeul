@@ -13,7 +13,20 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**/*', 'src/index.tsx', 'src/components/MicroWidget.tsx', 'src/components/Sidebar.tsx', 'src/types.ts'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}', 
+        'src/test/**/*', 
+        'src/index.tsx', 
+        'src/components/MicroWidget.tsx', 
+        'src/components/Sidebar.tsx', 
+        'src/types.ts'
+      ],
+      thresholds: {
+        lines: 90,
+        functions: 85,
+        branches: 85,
+        statements: 90,
+      },
     },
   },
 });

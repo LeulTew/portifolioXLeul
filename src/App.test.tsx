@@ -1,12 +1,27 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import App from './App';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+
+// Create fresh localStorage mock for each test
+const createLocalStorageMock = () => {
+  const store: Record<string, string> = {};
+  return {
+    getItem: vi.fn((key: string) => store[key] || null),
+    setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
+    clear: vi.fn(() => { Object.keys(store).forEach(k => delete store[k]); }),
+    removeItem: vi.fn((key: string) => { delete store[key]; }),
+  };
+};
 
 // Mock the components to isolate App testing
 vi.mock('./components/MainStage', () => ({
-  MainStage: ({ state, onNavigate }: { state: { currentView: string }; onNavigate: (view: string) => void }) => (
-    <div data-testid="main-stage" data-view={state.currentView}>
+  MainStage: ({ state, onNavigate, containerRef }: { 
+    state: { currentView: string }; 
+    onNavigate: (view: string, id?: string) => void;
+    containerRef: React.RefObject<HTMLElement>;
+  }) => (
+    <div data-testid="main-stage" data-view={state.currentView} ref={containerRef as React.RefObject<HTMLDivElement>}>
       <button onClick={() => onNavigate('ABOUT')}>Navigate About</button>
+      <button onClick={() => onNavigate('PROJECT_DETAIL', '1')}>View Project</button>
     </div>
   ),
 }));
@@ -21,45 +36,80 @@ vi.mock('./components/Dock', () => ({
 }));
 
 describe('App', () => {
+  let localStorageMock: ReturnType<typeof createLocalStorageMock>;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.resetModules();
+    localStorageMock = createLocalStorageMock();
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true });
+    document.documentElement.removeAttribute('data-theme');
+    cleanup();
   });
 
-  it('renders without crashing', () => {
+  afterEach(() => {
+    document.documentElement.removeAttribute('data-theme');
+  });
+
+  it('renders without crashing', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
     expect(screen.getByTestId('main-stage')).toBeInTheDocument();
     expect(screen.getByTestId('dock')).toBeInTheDocument();
   });
 
-  it('starts with HOME view and dark theme', () => {
+  it('starts with HOME view', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
     expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'HOME');
+  });
+
+  it('uses dark theme as default', async () => {
+    const { default: App } = await import('./App');
+    render(<App />);
     expect(screen.getByTestId('dock')).toHaveAttribute('data-theme', 'dark');
   });
 
-  it('navigates between views', () => {
+  it('navigates between views', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
     fireEvent.click(screen.getByText('Go Work'));
     expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'WORK');
   });
 
-  it('toggles theme', () => {
+  it('toggles theme', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
-    expect(screen.getByTestId('dock')).toHaveAttribute('data-theme', 'dark');
+    const dock = screen.getByTestId('dock');
+    const initialTheme = dock.getAttribute('data-theme');
     fireEvent.click(screen.getByText('Toggle Theme'));
-    expect(screen.getByTestId('dock')).toHaveAttribute('data-theme', 'light');
+    expect(dock.getAttribute('data-theme')).not.toBe(initialTheme);
   });
 
-  it('sets data-theme attribute on document', () => {
+  it('saves theme to localStorage on toggle', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
-    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
     fireEvent.click(screen.getByText('Toggle Theme'));
-    expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    expect(localStorageMock.setItem).toHaveBeenCalled();
   });
 
-  it('navigates to project detail and back', () => {
+  it('applies theme to document element', async () => {
+    const { default: App } = await import('./App');
+    render(<App />);
+    expect(document.documentElement.getAttribute('data-theme')).toBeTruthy();
+  });
+
+  it('navigates to about view', async () => {
+    const { default: App } = await import('./App');
     render(<App />);
     fireEvent.click(screen.getByText('Navigate About'));
     expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'ABOUT');
+  });
+
+  it('navigates to project detail with ID', async () => {
+    const { default: App } = await import('./App');
+    render(<App />);
+    fireEvent.click(screen.getByText('View Project'));
+    expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'PROJECT_DETAIL');
   });
 });

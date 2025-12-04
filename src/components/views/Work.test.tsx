@@ -51,14 +51,37 @@ describe('Work', () => {
     expect(aiOptions.length).toBeGreaterThan(0);
   });
 
-  it('renders pagination', () => {
+  it('renders pagination buttons', () => {
     render(<Work onSelectProject={mockSelectProject} />);
-    const pageButtons = screen.getAllByRole('button').filter(btn => btn.textContent === '1');
-    expect(pageButtons.length).toBeGreaterThan(0);
+    const page1 = screen.getByRole('button', { name: '1' });
+    expect(page1).toBeInTheDocument();
+  });
+
+  it('changes page when page number clicked', () => {
+    render(<Work onSelectProject={mockSelectProject} />);
+    const page2Button = screen.getByRole('button', { name: '2' });
+    fireEvent.click(page2Button);
+    expect(screen.getByText(/Showing 7/)).toBeInTheDocument();
   });
 
   it('displays showing count text', () => {
     render(<Work onSelectProject={mockSelectProject} />);
+    expect(screen.getByText(/Showing 1/)).toBeInTheDocument();
+  });
+
+  it('resets to page 1 when category changes', () => {
+    render(<Work onSelectProject={mockSelectProject} />);
+    // Go to page 2
+    const page2Button = screen.getByRole('button', { name: '2' });
+    fireEvent.click(page2Button);
+    
+    // Change category
+    const filterButton = screen.getByRole('button', { name: /All/i });
+    fireEvent.click(filterButton);
+    const webDevOptions = screen.getAllByText('Web Development');
+    fireEvent.click(webDevOptions[0]);
+    
+    // Should show page 1 content
     expect(screen.getByText(/Showing 1/)).toBeInTheDocument();
   });
 });
