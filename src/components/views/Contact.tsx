@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
-import { Mail, Copy, Check, Github, Linkedin, Send, MapPin, Clock } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import { Mail, Copy, Check, Linkedin, Send, MapPin, Clock, Loader2 } from 'lucide-react';
 import { cvData } from '../../data/cv';
+
+// Telegram SVG icon component
+const TelegramIcon = ({ size = 22 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+  </svg>
+);
 
 export const Contact: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
   
   const email = cvData.contact.email;
 
@@ -14,16 +26,39 @@ export const Contact: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Open mailto with form data
-    const subject = encodeURIComponent(`Message from ${formData.name}`);
-    const body = encodeURIComponent(`${formData.message}\n\n---\nFrom: ${formData.name}\nEmail: ${formData.email}`);
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    setError('');
+    
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      // Fallback to mailto if EmailJS not configured
+      const subject = encodeURIComponent(`Message from ${formData.name}`);
+      const body = encodeURIComponent(`${formData.message}\n\n---\nFrom: ${formData.name}\nEmail: ${formData.email}`);
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    setSending(true);
+
+    try {
+      await emailjs.sendForm(serviceId, templateId, formRef.current!, publicKey);
+      setSent(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => setSent(false), 5000);
+    } catch (err) {
+      setError('Failed to send message. Please try again or use email directly.');
+      console.error('EmailJS error:', err);
+    } finally {
+      setSending(false);
+    }
   };
 
   const socials = [
-    { label: 'GitHub', icon: <Github size={22} />, url: cvData.contact.social.github },
+    { label: 'Telegram', icon: <TelegramIcon size={22} />, url: 'https://t.me/fabbin' },
     { label: 'LinkedIn', icon: <Linkedin size={22} />, url: cvData.contact.social.linkedin },
   ];
 
@@ -116,7 +151,7 @@ export const Contact: React.FC = () => {
         <div className="p-6 md:p-8 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl">
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Send a message</h2>
           
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
                 Your Name
@@ -124,6 +159,7 @@ export const Contact: React.FC = () => {
               <input
                 type="text"
                 id="name"
+                name="from_name"
                 value={formData.name}
                 onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 required
@@ -139,6 +175,7 @@ export const Contact: React.FC = () => {
               <input
                 type="email"
                 id="email"
+                name="reply_to"
                 value={formData.email}
                 onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 required
@@ -153,6 +190,7 @@ export const Contact: React.FC = () => {
               </label>
               <textarea
                 id="message"
+                name="message"
                 value={formData.message}
                 onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 required
@@ -161,18 +199,37 @@ export const Contact: React.FC = () => {
                 placeholder="Tell me about your project..."
               />
             </div>
+
+            {error && (
+              <p className="text-red-500 text-sm">{error}</p>
+            )}
             
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[var(--accent)] text-white rounded-xl font-medium hover:opacity-90 transition-opacity"
+              disabled={sending}
+              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[var(--accent)] text-white rounded-xl font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              <Send size={18} />
-              Send Message
+              {sending ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Sending...
+                </>
+              ) : sent ? (
+                <>
+                  <Check size={18} />
+                  Message Sent!
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  Send Message
+                </>
+              )}
             </button>
           </form>
           
           <p className="text-xs text-[var(--text-muted)] text-center mt-4">
-            This will open your email client with the message pre-filled.
+            Your message will be sent directly to my inbox.
           </p>
         </div>
       </div>
