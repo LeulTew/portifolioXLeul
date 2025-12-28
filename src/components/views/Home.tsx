@@ -2,33 +2,40 @@ import React from 'react';
 import { Github, Linkedin, Mail, ChevronDown, Code, Briefcase, GraduationCap, Sparkles } from 'lucide-react';
 import { cvData } from '../../data/cv';
 import { projectsData } from '../../data/projects';
+import { LavaLamp } from '../ui/fluid-blob';
+import type { Theme } from '../../types';
 
 interface HomeProps {
   onNavigate: (view: 'WORK' | 'ABOUT') => void;
+  theme: Theme;
 }
 
 // Check View Transitions support at module level
 const supportsViewTransitions = typeof document !== 'undefined' && 'startViewTransition' in document;
 
-export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
+export const Home: React.FC<HomeProps> = ({ onNavigate, theme }) => {
   const handleExploreClick = () => {
     onNavigate('WORK');
   };
 
   return (
     <div className="w-full min-h-screen">
-      {/* HERO SECTION with Parallax Effect */}
-      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-12 relative overflow-hidden">
-        {/* Parallax Background Layers */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]" />
-          <div className="absolute bottom-40 right-20 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_1s]" />
-          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-[float_5s_ease-in-out_infinite_0.5s]" />
+      {/* HERO SECTION with Lava Lamp Effect */}
+      <section className={`min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-12 relative overflow-hidden ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+        {/* Lava Lamp Background */}
+        <div className="absolute inset-0 z-0">
+          <LavaLamp theme={theme} />
+        </div>
+
+        {/* Parallax Background Layers - kept but reduced opacity for better blend */}
+        <div className="absolute inset-0 pointer-events-none z-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]" />
+          <div className="absolute bottom-40 right-20 w-48 h-48 bg-cyan-500/5 rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_1s]" />
         </div>
 
         {/* Profile Image with View Transition */}
-        <div className="relative order-first md:order-last flex-shrink-0 waterfall-item mb-8 md:mb-0">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-500 via-cyan-500 to-emerald-500 blur-xl opacity-50 animate-[pulse_3s_ease-in-out_infinite]" />
+        <div className="relative order-first md:order-last flex-shrink-0 waterfall-item mb-8 md:mb-0 z-30">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-500 via-cyan-500 to-emerald-500 blur-xl opacity-30 animate-[pulse_3s_ease-in-out_infinite]" />
           <div 
             className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-[var(--border-color)] shadow-2xl animate-[float_4s_ease-in-out_infinite]"
             style={{ viewTransitionName: 'hero-profile' } as React.CSSProperties}
@@ -60,36 +67,36 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           )}
         </div>
 
-        {/* Text Content */}
-        <div className="space-y-6 z-10 text-center md:text-left md:mr-16">
-          <div className="overflow-hidden">
+        {/* Text Content with Mix Blend Exclusion */}
+        <div className="space-y-6 z-20 text-center md:text-left md:mr-16 mix-blend-exclusion pointer-events-none max-w-2xl">
+          <div className="overflow-hidden pointer-events-auto">
             <span 
-              className="inline-flex items-center gap-2 text-[var(--accent)] font-mono text-sm tracking-widest uppercase mb-4 waterfall-item"
+              className="inline-flex items-center gap-2 text-white font-mono text-sm tracking-widest uppercase mb-4 waterfall-item"
               style={{ viewTransitionName: 'brand-text' } as React.CSSProperties}
             >
               PortifolioX
             </span>
             <h1 
-              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-[var(--text-primary)] tracking-tighter leading-[0.9] mb-6"
+              className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-[0.9] mb-6"
               style={{ viewTransitionName: 'hero-title' } as React.CSSProperties}
             >
               Leul<br />
-              <span className="text-[var(--text-muted)]">Tewodros.</span>
+              <span className="opacity-80">Tewodros.</span>
             </h1>
           </div>
           
-          <p className="text-lg sm:text-xl md:text-2xl text-[var(--text-secondary)] max-w-xl leading-relaxed font-light waterfall-item">
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-xl leading-relaxed font-light waterfall-item pointer-events-auto">
             {cvData.about.subtitle}
           </p>
 
-          <div className="flex items-center justify-center md:justify-start gap-4 sm:gap-6 pt-4 waterfall-item">
-            <a href={cvData.contact.social.github} target="_blank" rel="noopener noreferrer" className="p-3 sm:p-4 rounded-full bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-300 hover:scale-110" aria-label="GitHub">
+          <div className="flex items-center justify-center md:justify-start gap-4 sm:gap-6 pt-4 waterfall-item pointer-events-auto">
+            <a href={cvData.contact.social.github} target="_blank" rel="noopener noreferrer" className="p-3 sm:p-4 rounded-full bg-white/10 text-white border border-white/20 hover:border-white hover:bg-white/30 transition-all duration-300 hover:scale-110" aria-label="GitHub">
               <Github size={20} className="sm:w-6 sm:h-6" />
             </a>
-            <a href={cvData.contact.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 sm:p-4 rounded-full bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] hover:border-blue-500 hover:text-blue-500 transition-all duration-300 hover:scale-110" aria-label="LinkedIn">
+            <a href={cvData.contact.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 sm:p-4 rounded-full bg-white/10 text-white border border-white/20 hover:border-white hover:bg-white/30 transition-all duration-300 hover:scale-110" aria-label="LinkedIn">
               <Linkedin size={20} className="sm:w-6 sm:h-6" />
             </a>
-            <a href={`mailto:${cvData.contact.email}`} className="p-3 sm:p-4 rounded-full bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] hover:border-[var(--text-primary)] transition-all duration-300 hover:scale-110" aria-label="Email">
+            <a href={`mailto:${cvData.contact.email}`} className="p-3 sm:p-4 rounded-full bg-white/10 text-white border border-white/20 hover:border-white hover:bg-white/30 transition-all duration-300 hover:scale-110" aria-label="Email">
               <Mail size={20} className="sm:w-6 sm:h-6" />
             </a>
           </div>
@@ -97,7 +104,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
         {/* Scroll Indicator - alternative for non-VT browsers */}
         {!supportsViewTransitions && (
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)] animate-bounce">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50 animate-bounce z-20">
             <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
             <ChevronDown size={20} />
           </div>

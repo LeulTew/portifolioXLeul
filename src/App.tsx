@@ -70,6 +70,7 @@ export default function App() {
         state={viewState} 
         onNavigate={handleNavigate} 
         containerRef={mainStageRef}
+        theme={theme}
       />
 
       {/* The HUD Layer - sits on top */}

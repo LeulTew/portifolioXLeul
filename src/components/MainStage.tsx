@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ViewState, ViewName } from '../types';
+import type { ViewState, ViewName, Theme } from '../types';
 import { projectsData } from '../data/projects';
 import { Home } from './views/Home';
 import { Work } from './views/Work';
@@ -11,15 +11,17 @@ interface MainStageProps {
   state: ViewState;
   onNavigate: (view: ViewName, projectId?: string) => void;
   containerRef: React.RefObject<HTMLElement | null>;
+  theme: Theme;
 }
 
-export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, containerRef }) => {
+export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, containerRef, theme }) => {
   const renderContent = () => {
     switch (state.currentView) {
       case 'HOME':
         return (
           <Home 
             onNavigate={(view) => onNavigate(view)} 
+            theme={theme}
           />
         );
       case 'WORK':
