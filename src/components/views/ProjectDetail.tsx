@@ -90,12 +90,12 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack })
             </div>
 
             <div className="md:col-span-8 space-y-8">
-              <p className="text-2xl md:text-3xl text-[var(--text-secondary)] font-light leading-relaxed waterfall-item">
+              <p className="text-2xl md:text-3xl text-[var(--text-primary)] font-light leading-relaxed waterfall-item">
                 {project.description}
               </p>
               
               {project.longDescription && (
-                <div className="waterfall-item space-y-6 pt-8 text-lg text-[var(--text-muted)] leading-relaxed prose prose-invert max-w-none prose-p:text-[var(--text-muted)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-ul:text-[var(--text-muted)]">
+                <div className="waterfall-item px-6 py-8 md:px-10 bg-[var(--card-bg)]/40 backdrop-blur-md rounded-2xl border border-[var(--border-color)] space-y-6 text-lg text-[var(--text-secondary)] leading-relaxed prose prose-invert max-w-none prose-p:text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-ul:text-[var(--text-secondary)]">
                     <ReactMarkdown>
                       {project.longDescription}
                     </ReactMarkdown>
