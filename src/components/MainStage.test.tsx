@@ -5,8 +5,9 @@ import { projectsData } from '../data/projects';
 
 // Mock child components
 vi.mock('./views/Home', () => ({
-  Home: ({ onNavigate }: { onNavigate: (view: string) => void }) => (
+  Home: ({ onNavigate, theme }: { onNavigate: (view: string) => void; theme: string }) => (
     <div data-testid="home-view">
+      <span>Theme: {theme}</span>
       <button onClick={() => onNavigate('WORK')}>Go to Work</button>
     </div>
   ),
@@ -47,6 +48,7 @@ describe('MainStage', () => {
         state={{ currentView: 'HOME' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(screen.getByTestId('home-view')).toBeInTheDocument();
@@ -58,6 +60,7 @@ describe('MainStage', () => {
         state={{ currentView: 'WORK' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(screen.getByTestId('work-view')).toBeInTheDocument();
@@ -69,6 +72,7 @@ describe('MainStage', () => {
         state={{ currentView: 'ABOUT' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(screen.getByTestId('about-view')).toBeInTheDocument();
@@ -81,6 +85,7 @@ describe('MainStage', () => {
         state={{ currentView: 'PROJECT_DETAIL', selectedProjectId: projectId }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(screen.getByTestId('project-detail')).toBeInTheDocument();
@@ -92,6 +97,7 @@ describe('MainStage', () => {
         state={{ currentView: 'PROJECT_DETAIL', selectedProjectId: 'invalid' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(container.querySelector('[data-testid="project-detail"]')).toBeNull();
@@ -103,6 +109,7 @@ describe('MainStage', () => {
         state={{ currentView: 'WORK' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     fireEvent.click(screen.getByText('Select Project 1'));
@@ -115,6 +122,7 @@ describe('MainStage', () => {
         state={{ currentView: 'HOME' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     fireEvent.click(screen.getByText('Go to Work'));
@@ -128,6 +136,7 @@ describe('MainStage', () => {
         state={{ currentView: 'UNKNOWN' }}
         onNavigate={mockNavigate}
         containerRef={mockRef}
+        theme="dark"
       />
     );
     expect(screen.getByText('View not found')).toBeInTheDocument();

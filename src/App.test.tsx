@@ -14,12 +14,13 @@ const createLocalStorageMock = () => {
 
 // Mock the components to isolate App testing
 vi.mock('./components/MainStage', () => ({
-  MainStage: ({ state, onNavigate, containerRef }: { 
+  MainStage: ({ state, onNavigate, containerRef, theme }: { 
     state: { currentView: string }; 
     onNavigate: (view: string, id?: string) => void;
     containerRef: React.RefObject<HTMLElement>;
+    theme: string;
   }) => (
-    <div data-testid="main-stage" data-view={state.currentView} ref={containerRef as React.RefObject<HTMLDivElement>}>
+    <div data-testid="main-stage" data-view={state.currentView} data-theme={theme} ref={containerRef as React.RefObject<HTMLDivElement>}>
       <button onClick={() => onNavigate('ABOUT')}>Navigate About</button>
       <button onClick={() => onNavigate('PROJECT_DETAIL', '1')}>View Project</button>
     </div>
