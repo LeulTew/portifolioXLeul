@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Contact } from "./Contact";
-import emailjs from "@emailjs/browser";
-
 vi.mock("@emailjs/browser", () => ({
   default: {
     sendForm: vi.fn(),
