@@ -34,6 +34,10 @@ vi.mock('./views/About', () => ({
   About: () => <div data-testid="about-view">About</div>,
 }));
 
+vi.mock('./views/Contact', () => ({
+  Contact: () => <div data-testid="contact-view">Contact</div>,
+}));
+
 describe('MainStage', () => {
   const mockNavigate = vi.fn();
   const mockRef = { current: null };
@@ -64,6 +68,18 @@ describe('MainStage', () => {
       />
     );
     expect(screen.getByTestId('work-view')).toBeInTheDocument();
+  });
+
+  it("renders Contact view for CONTACT state", () => {
+    render(
+      <MainStage
+        state={{ currentView: "CONTACT" }}
+        onNavigate={mockNavigate}
+        containerRef={mockRef}
+        theme="dark"
+      />
+    );
+    expect(screen.getByTestId("contact-view")).toBeInTheDocument();
   });
 
   it('renders About view for ABOUT state', () => {
