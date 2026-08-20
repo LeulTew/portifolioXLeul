@@ -51,7 +51,7 @@ export const MainStage: React.FC<MainStageProps> = ({ state, onNavigate, contain
 
   return (
     <main 
-      ref={containerRef}
+      ref={containerRef as never}
       id="main-stage"
       className="fixed inset-0 w-full h-full bg-[var(--bg-main)] overflow-y-auto overflow-x-hidden"
       style={{

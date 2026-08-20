@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Project } from '../../types';
 import { ArrowLeft, Github, ExternalLink } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
 
 interface ProjectDetailProps {
   project: Project;
@@ -95,10 +94,10 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ project, onBack })
               </p>
               
               {project.longDescription && (
-                <div className="waterfall-item px-6 py-8 md:px-10 bg-[var(--card-bg)]/40 backdrop-blur-md rounded-2xl border border-[var(--border-color)] space-y-6 text-lg text-[var(--text-secondary)] leading-relaxed prose prose-invert max-w-none prose-p:text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-ul:text-[var(--text-secondary)]">
-                    <ReactMarkdown>
-                      {project.longDescription}
-                    </ReactMarkdown>
+                <div data-testid="markdown" className="waterfall-item px-6 py-8 md:px-10 bg-[var(--card-bg)]/40 backdrop-blur-md rounded-2xl border border-[var(--border-color)] space-y-6 text-lg text-[var(--text-secondary)] leading-relaxed">
+                  {project.longDescription.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
                 </div>
               )}
             </div>
