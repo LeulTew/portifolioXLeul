@@ -20,12 +20,15 @@ describe('About', () => {
     expect(screen.getByText('Years Experience')).toBeInTheDocument();
     expect(screen.getByText('30+')).toBeInTheDocument();
     expect(screen.getByText('Projects')).toBeInTheDocument();
+    expect(screen.getByText('100%')).toBeInTheDocument();
+    expect(screen.getByText('Happy Clients')).toBeInTheDocument();
   });
 
   it('renders Experience section', () => {
     render(<About />);
     expect(screen.getByText('Experience')).toBeInTheDocument();
     expect(screen.getByText('Software Developer Intern')).toBeInTheDocument();
+    expect(screen.getByText('Example Company')).toBeInTheDocument();
   });
 
   it('renders Capabilities section', () => {
