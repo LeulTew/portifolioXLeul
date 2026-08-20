@@ -57,6 +57,19 @@ describe('Work', () => {
     expect(page1).toBeInTheDocument();
   });
 
+  it("handles next and previous page pagination buttons", () => {
+    render(<Work onSelectProject={mockSelectProject} />);
+    const nextButton = screen.getByRole("button", { name: /next page/i });
+    expect(nextButton).not.toBeDisabled();
+    fireEvent.click(nextButton);
+    expect(screen.getByText(/Showing 7/)).toBeInTheDocument();
+
+    const prevButton = screen.getByRole("button", { name: /previous page/i });
+    expect(prevButton).not.toBeDisabled();
+    fireEvent.click(prevButton);
+    expect(screen.getByText(/Showing 1/)).toBeInTheDocument();
+  });
+
   it('changes page when page number clicked', () => {
     render(<Work onSelectProject={mockSelectProject} />);
     const page2Button = screen.getByRole('button', { name: '2' });
