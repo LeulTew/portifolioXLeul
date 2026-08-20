@@ -21,7 +21,12 @@ export const Dock: React.FC<DockProps> = ({ activeView, onNavigate, theme, toggl
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
-      <nav className="flex items-center gap-2 p-2 rounded-full bg-[var(--dock-bg)] backdrop-blur-xl border border-[var(--border-color)] shadow-2xl transition-all duration-300">
+      <nav 
+        className="flex items-center gap-2 p-2 bg-[var(--dock-bg)] backdrop-blur-xl border border-[var(--border-color)] shadow-2xl transition-all duration-300"
+        style={{
+          clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)'
+        }}
+      >
         {navItems.map((item) => {
           const isActive = activeView === item.id || (activeView === 'PROJECT_DETAIL' && item.id === 'WORK');
           const isHovered = hoveredTab === item.id;
@@ -32,6 +37,8 @@ export const Dock: React.FC<DockProps> = ({ activeView, onNavigate, theme, toggl
               onClick={() => onNavigate(item.id)}
               onMouseEnter={() => setHoveredTab(item.id)}
               onMouseLeave={() => setHoveredTab(null)}
+              aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
               className={`
                 relative flex items-center justify-center h-12 rounded-full transition-all duration-300 ease-out
                 ${isActive ? 'bg-[var(--text-primary)] text-[var(--bg-main)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-bg)]'}
@@ -57,6 +64,7 @@ export const Dock: React.FC<DockProps> = ({ activeView, onNavigate, theme, toggl
 
         <button
           onClick={toggleTheme}
+          aria-label="Toggle theme"
           className="w-12 h-12 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--hover-bg)] transition-all"
         >
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}

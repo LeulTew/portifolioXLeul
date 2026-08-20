@@ -125,7 +125,11 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
               {/* Category Badge */}
               <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
                 {project.categories.slice(0, 2).map((cat, i) => (
-                  <span key={i} className="bg-black/50 backdrop-blur-md text-white px-2 py-1 rounded-full text-xs font-mono border border-white/10">
+                  <span 
+                    key={i} 
+                    className="bg-black/50 backdrop-blur-md text-white px-2 py-1 text-xs font-mono border border-white/10"
+                    style={{ clipPath: 'polygon(4px 0%, 100% 0%, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0% 100%, 0% 4px)' }}
+                  >
                     {cat}
                   </span>
                 ))}
@@ -133,7 +137,10 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
               
               {/* View Project CTA */}
               <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                <span className="flex items-center gap-2 bg-[var(--accent)] text-white px-4 py-2 rounded-full text-sm font-medium">
+                <span 
+                  className="flex items-center gap-2 bg-[var(--accent)] text-white px-4 py-2 text-sm font-medium"
+                  style={{ clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)' }}
+                >
                   View Project
                   <ArrowUpRight size={16} />
                 </span>
@@ -160,6 +167,7 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
           <button 
             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
             disabled={currentPage === 1}
+            aria-label="Previous page"
             className="p-3 rounded-full border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] disabled:opacity-30 disabled:pointer-events-none transition-all"
           >
             <ChevronLeft size={20} />
@@ -170,6 +178,8 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
+                aria-label={String(page)}
+                aria-current={currentPage === page ? 'page' : undefined}
                 className={`w-10 h-10 rounded-full text-sm font-medium transition-all ${
                   currentPage === page
                     ? 'bg-[var(--accent)] text-white'
@@ -184,6 +194,7 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
           <button 
             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
+            aria-label="Next page"
             className="p-3 rounded-full border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] disabled:opacity-30 disabled:pointer-events-none transition-all"
           >
             <ChevronRight size={20} />

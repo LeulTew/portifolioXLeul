@@ -89,7 +89,8 @@ export const Contact: React.FC = () => {
         <div className="space-y-10">
           {/* Email Card */}
           <div 
-            className="group relative p-6 md:p-8 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl hover:border-[var(--accent)] transition-all cursor-pointer"
+            className="group relative p-6 md:p-8 bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[var(--accent)] transition-all cursor-pointer"
+            style={{ clipPath: 'polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px)' }}
             onClick={handleCopy}
           >
             <div className="flex items-start justify-between mb-4">
@@ -135,7 +136,8 @@ export const Contact: React.FC = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-5 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-full hover:border-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all group"
+                  className="flex items-center gap-3 px-5 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all group"
+                  style={{ clipPath: 'polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px)' }}
                 >
                   <span className="text-[var(--text-secondary)] group-hover:text-[var(--accent)] transition-colors">
                     {social.icon}
@@ -148,7 +150,10 @@ export const Contact: React.FC = () => {
         </div>
 
         {/* Right Column - Contact Form */}
-        <div className="p-6 md:p-8 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl">
+        <div 
+          className="p-6 md:p-8 bg-[var(--card-bg)] border border-[var(--border-color)]"
+          style={{ clipPath: 'polygon(14px 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%, 0% 14px)' }}
+        >
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Send a message</h2>
           
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
@@ -207,7 +212,8 @@ export const Contact: React.FC = () => {
             <button
               type="submit"
               disabled={sending}
-              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[var(--accent)] text-white rounded-xl font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[var(--accent)] text-white font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+              style={{ clipPath: 'polygon(8px 0%, 100% 0%, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0% 100%, 0% 8px)' }}
             >
               {sending ? (
                 <>

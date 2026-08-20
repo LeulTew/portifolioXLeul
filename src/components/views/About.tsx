@@ -48,7 +48,10 @@ export const About: React.FC = () => {
         </div>
         
         <div className="space-y-12">
-          <div className="bg-[var(--card-bg)] rounded-2xl p-8 waterfall-item border border-[var(--border-color)]">
+          <div 
+            className="bg-[var(--card-bg)] p-8 waterfall-item border border-[var(--border-color)]"
+            style={{ clipPath: 'polygon(14px 0%, 100% 0%, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0% 100%, 0% 14px)' }}
+          >
             <h3 className="text-[var(--text-primary)] font-bold text-2xl mb-6">Capabilities</h3>
             <div className="space-y-8">
               {cvData.skills.map((skillGroup, index) => (
@@ -56,7 +59,11 @@ export const About: React.FC = () => {
                   <h4 className="text-[var(--accent)] font-mono text-sm uppercase tracking-wider mb-3">{skillGroup.title}</h4>
                   <div className="flex flex-wrap gap-2">
                     {skillGroup.items.map((skill, i) => (
-                      <span key={i} className="px-3 py-1 bg-[var(--bg-main)] rounded-full text-sm text-[var(--text-secondary)] border border-[var(--border-color)]">
+                      <span 
+                        key={i} 
+                        className="px-3 py-1 bg-[var(--bg-main)] text-sm text-[var(--text-secondary)] border border-[var(--border-color)]"
+                        style={{ clipPath: 'polygon(4px 0%, 100% 0%, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0% 100%, 0% 4px)' }}
+                      >
                         {skill}
                       </span>
                     ))}

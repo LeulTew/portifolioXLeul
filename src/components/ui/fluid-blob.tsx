@@ -128,7 +128,7 @@ function LavaLampShader({ theme }: { theme: 'light' | 'dark' }) {
     time: { value: 0 },
     resolution: { value: new THREE.Vector4() },
     isDark: { value: theme === 'dark' ? 1.0 : 0.0 }
-  }), []);
+  }), [theme]);
 
   // Update theme uniform when prop changes
   React.useEffect(() => {
@@ -136,6 +136,14 @@ function LavaLampShader({ theme }: { theme: 'light' | 'dark' }) {
       shaderRef.current.uniforms.isDark.value = theme === 'dark' ? 1.0 : 0.0;
     }
   }, [theme]);
+
+  // Cleanup WebGL material on unmount
+  React.useEffect(() => {
+    const currentShader = shaderRef.current;
+    return () => {
+      currentShader?.dispose();
+    };
+  }, []);
 
   // Update resolution when size changes
   React.useEffect(() => {

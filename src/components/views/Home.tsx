@@ -163,13 +163,19 @@ export const Home: React.FC<HomeProps> = ({ onNavigate, theme }) => {
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <button 
               onClick={() => onNavigate('WORK')}
-              className="px-8 py-4 bg-[var(--accent)] text-white rounded-full font-medium hover:opacity-90 transition-all hover:scale-105"
+              className="px-8 py-4 bg-[var(--accent)] text-white font-medium hover:opacity-90 transition-all hover:scale-105"
+              style={{
+                clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+              }}
             >
               View Projects
             </button>
             <button 
               onClick={() => onNavigate('ABOUT')}
-              className="px-8 py-4 bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] rounded-full font-medium hover:border-[var(--accent)] transition-all hover:scale-105"
+              className="px-8 py-4 bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--border-color)] font-medium hover:border-[var(--accent)] transition-all hover:scale-105"
+              style={{
+                clipPath: 'polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px)'
+              }}
             >
               About Me
             </button>
