@@ -74,6 +74,12 @@ describe('ProjectDetail', () => {
     expect(mockOnBack).toHaveBeenCalled();
   });
 
+  it("does not render longDescription when not provided", () => {
+    const projectWithoutLongDesc = { ...mockProject, longDescription: "" };
+    render(<ProjectDetail project={projectWithoutLongDesc} onBack={mockOnBack} />);
+    expect(screen.queryByTestId("markdown")).not.toBeInTheDocument();
+  });
+
   it('renders markdown content', () => {
     render(<ProjectDetail project={mockProject} onBack={mockOnBack} />);
     expect(screen.getByTestId('markdown')).toBeInTheDocument();
