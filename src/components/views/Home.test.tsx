@@ -65,9 +65,16 @@ describe('Home', () => {
     expect(mockNavigate).toHaveBeenCalledWith('ABOUT');
   });
 
+  it("renders with light theme styling", () => {
+    const { container } = render(<Home onNavigate={mockNavigate} theme="light" />);
+    expect(container.firstChild).toBeInTheDocument();
+  });
+
   it('renders social links', () => {
     render(<Home onNavigate={mockNavigate} theme="dark" />);
     const githubLinks = document.querySelectorAll('a[href*="github.com"]');
+    expect(document.querySelector('a[href*="mailto:"]')).toBeInTheDocument();
+    expect(document.querySelector('a[href*="linkedin.com"]')).toBeInTheDocument();
     expect(githubLinks.length).toBeGreaterThan(0);
   });
 });
