@@ -10,7 +10,7 @@ const getInitialTheme = (): Theme => {
     const saved = localStorage.getItem('theme') as Theme;
     if (saved === 'light' || saved === 'dark') return saved;
   }
-  return 'dark';
+  return 'light';
 };
 
 // Check if View Transitions API is supported
