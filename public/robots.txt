@@ -1,5 +1,5 @@
 # Robots.txt for Leul Tewodros Agonafer Portfolio
-# https://portifolio-x-leul.vercel.app
+# https://leul-t-agonafer-x.vercel.app
 
 User-agent: *
 Allow: /
@@ -18,7 +18,7 @@ User-agent: DuckDuckBot
 Allow: /
 
 # Sitemap location
-Sitemap: https://portifolio-x-leul.vercel.app/sitemap.xml
+Sitemap: https://leul-t-agonafer-x.vercel.app/sitemap.xml
 
 # Host
-Host: https://portifolio-x-leul.vercel.app
+Host: https://leul-t-agonafer-x.vercel.app
