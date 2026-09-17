@@ -86,9 +86,13 @@ Only the explicitly listed production hosts in `src/lib/deviceRouting.ts` route
 between sites. Localhost, custom domains, and Vercel preview URLs render normally
 for development and review.
 
-Vercel uses the committed `vercel.json`: Vite, `bun install --frozen-lockfile`,
-`bun run build`, and output directory `dist`. `bun.lock` is the sole dependency
-lockfile; Bun 1.4.0 is recorded in `package.json`. The SPA rewrite serves
+Vercel uses the committed `vercel.json`: Vite,
+`bunx bun@1.4.0 install --frozen-lockfile`, `bunx bun@1.4.0 run build`, and output
+directory `dist`. The commands explicitly select Bun 1.4.0 because Vercel's
+preinstalled Bun may not support this lockfile format; `packageManager` alone
+does not select the hosted runtime. This follows
+[Vercel's Bun version-pinning guidance](https://vercel.com/kb/guide/how-to-pin-a-specific-bun-version-for-vercel-builds).
+`bun.lock` remains the sole dependency lockfile. The SPA rewrite serves
 `index.html` for application paths while existing static assets remain available.
 Configure both canonical and legacy aliases on their respective Vercel projects;
 source routing does not create domains or deployments. Preserve the project's
