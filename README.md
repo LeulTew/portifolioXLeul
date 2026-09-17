@@ -3,14 +3,14 @@
 # PortifolioX
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-6.0-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
 A modern, performant portfolio built with React 19, TypeScript, and View Transitions API.
 
-[Live Demo](https://portifolio-x-leul.vercel.app) | [Report Bug](https://github.com/LeulTew/portifolioXLeul/issues)
+[Mobile Portfolio X](https://leul-t-agonafer-x.vercel.app) | [Desktop Portfolio](https://leul-t-agonafer.vercel.app) | [Report Bug](https://github.com/LeulTew/portifolioXLeul/issues)
 
 </div>
 
@@ -30,8 +30,8 @@ A modern, performant portfolio built with React 19, TypeScript, and View Transit
 
 | Category       | Technologies                        |
 | -------------- | ----------------------------------- |
-| **Frontend**   | React 19, TypeScript, TailwindCSS 4 |
-| **Build Tool** | Vite 6 with Rolldown                |
+| **Frontend**   | React 19, TypeScript, TailwindCSS 3 |
+| **Build Tool** | Vite 7 with Rolldown, Bun 1.4.0     |
 | **Testing**    | Vitest, React Testing Library       |
 | **Icons**      | Lucide React                        |
 | **Email**      | EmailJS                             |
@@ -45,26 +45,54 @@ git clone https://github.com/LeulTew/portifolioXLeul.git
 cd portifolioXLeul
 
 # Install dependencies
-pnpm install
+bun install --frozen-lockfile
 
 # Create environment file
 cp .env.example .env
 # Add your EmailJS credentials to .env
 
 # Start development server
-pnpm dev
+bun run dev
 ```
 
 ## Scripts
 
 | Command              | Description              |
 | -------------------- | ------------------------ |
-| `pnpm dev`           | Start development server |
-| `pnpm build`         | Build for production     |
-| `pnpm preview`       | Preview production build |
-| `pnpm lint`          | Run ESLint               |
-| `pnpm test`          | Run tests                |
-| `pnpm test:coverage` | Run tests with coverage  |
+| `bun run dev`           | Start development server |
+| `bun run build`         | Type-check and build for production |
+| `bun run preview`       | Preview production build |
+| `bun run lint`          | Run ESLint               |
+| `bun run test`          | Run tests                |
+| `bun run test:coverage` | Run tests with coverage  |
+
+## Production routing and deployment
+
+Phones use `https://leul-t-agonafer-x.vercel.app`; desktops and tablets use
+`https://leul-t-agonafer.vercel.app`. The lightweight entry module checks the device
+before importing React, application CSS, or the portfolio app. It uses
+`location.replace` to change only the origin, preserving the path, query, and
+fragment. Old production aliases also redirect to the appropriate canonical site.
+
+Phone detection uses iPhone, iPod, Windows Phone, or Android Mobile user agents,
+with `navigator.userAgentData.mobile === true` as a fallback. Explicit iPad/Tablet
+agents and iPadOS desktop-style agents (`Macintosh` with multiple touch points)
+are tablets, even if a mobile client hint is present. Window width, resizing, and
+touch support alone never trigger routing. No query override or persistent
+redirect preference is used. Both repositories must keep this policy in sync to
+avoid cross-site loops.
+
+Only the explicitly listed production hosts in `src/lib/deviceRouting.ts` route
+between sites. Localhost, custom domains, and Vercel preview URLs render normally
+for development and review.
+
+Vercel uses the committed `vercel.json`: Vite, `bun install --frozen-lockfile`,
+`bun run build`, and output directory `dist`. `bun.lock` is the sole dependency
+lockfile; Bun 1.4.0 is recorded in `package.json`. The SPA rewrite serves
+`index.html` for application paths while existing static assets remain available.
+Configure both canonical and legacy aliases on their respective Vercel projects;
+source routing does not create domains or deployments. Preserve the project's
+existing EmailJS environment settings when deploying.
 
 ## Project Structure
 

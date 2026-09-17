@@ -22,7 +22,7 @@ export default defineConfig({
       exclude: [
         'src/**/*.test.{ts,tsx}', 
         'src/test/**/*', 
-        'src/index.tsx', 
+        'src/bootstrap.tsx',
         'src/components/MicroWidget.tsx', 
         'src/components/Sidebar.tsx', 
         'src/types.ts'
