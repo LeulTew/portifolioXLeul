@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { projectsData } from './projects';
 
+const previews = import.meta.glob('/public/images/projects/*.webp');
+
 describe('projectsData', () => {
   it('has required fields for each project', () => {
     projectsData.forEach((project) => {
@@ -33,6 +35,13 @@ describe('projectsData', () => {
   it('all projects have at least one category', () => {
     projectsData.forEach((project) => {
       expect(project.categories.length).toBeGreaterThan(0);
+    });
+  });
+  it('leads with SUN Chips Ethiopia and AGI Readiness, each with a real preview image', () => {
+    expect(projectsData.slice(0, 2).map((p) => p.title)).toEqual(['SUN Chips Ethiopia', 'AGI Readiness']);
+    projectsData.slice(0, 2).forEach((project) => {
+      expect(project.demoUrl).toMatch(/^https:\/\/leultew\.github\.io\//);
+      expect(Object.keys(previews)).toContain(`/public${project.image}`);
     });
   });
 });

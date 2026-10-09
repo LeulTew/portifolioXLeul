@@ -12,6 +12,30 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
+    id: 37,
+    title: "SUN Chips Ethiopia",
+    description: "A scroll film for an Ethiopian potato-chip brand, in English and Amharic",
+    longDescription: "**SUN Chips Ethiopia** tells the brand's story as one \"open the bag\" scroll.\n\n• **3D pack**: A real 3D pack in each flavour's world, with a still standing in on phones and weaker devices.\n• **Five flavours**: A wall of five flavour worlds, each with its own colour.\n• **Calendar dial**: A live 13-month Ethiopian calendar.\n• **Bilingual**: The whole page in English and Amharic.\n\nAn unofficial concept page, designed and built solo. The source repository is private.",
+    tech: "Astro, TypeScript, three.js, GSAP, Blender",
+    image: "/images/projects/sunchips.webp",
+    githubUrl: "",
+    demoUrl: "https://leultew.github.io/SunChips/",
+    categories: ["Web Development","Graphics & Algorithms"]
+  },
+
+  {
+    id: 38,
+    title: "AGI Readiness",
+    description: "An editorial essay defining AGI and checking the AI 2027 forecast",
+    longDescription: "**AGI Readiness** gives one definition of AGI, one agent doing professional work in almost any field, then checks the AI 2027 forecast against events as of 26 September 2026.\n\n• **Field tour**: Twelve fields, each a Blender model sampled into particles.\n• **Checked against reality**: Forecast milestones marked on time, late or still ahead, with sources.\n• **Fallbacks**: Plain document content without WebGL, and a static hero for reduced motion.",
+    tech: "TypeScript, three.js, Blender, GSAP",
+    image: "/images/projects/agi-readiness.webp",
+    githubUrl: "https://github.com/LeulTew/agi-readiness",
+    demoUrl: "https://leultew.github.io/agi-readiness/",
+    categories: ["Web Development","Graphics & Algorithms"]
+  },
+
+  {
     id: 36,
     title: "Mizan",
     description: "A calm, mobile-first ledger for lending and everyday spending",
