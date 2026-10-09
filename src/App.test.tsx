@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { act, render, screen, fireEvent, cleanup } from '@testing-library/react';
 
 // Create fresh localStorage mock for each test
 const createLocalStorageMock = () => {
@@ -45,6 +45,7 @@ describe('App', () => {
     localStorageMock = createLocalStorageMock();
     Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true });
     document.documentElement.removeAttribute('data-theme');
+    sessionStorage.clear();
     cleanup();
   });
 
@@ -112,5 +113,27 @@ describe('App', () => {
     render(<App />);
     fireEvent.click(screen.getByText('View Project'));
     expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'PROJECT_DETAIL');
+  });
+
+  it('offers the desktop site without blocking navigation or theme changes', async () => {
+    vi.useFakeTimers();
+    try {
+      const { default: App } = await import('./App');
+      render(<App />);
+      fireEvent.click(screen.getByText('Go Work'));
+      fireEvent.click(screen.getByText('Toggle Theme'));
+      act(() => vi.advanceTimersByTime(2000));
+      expect(screen.getByRole('link', { name: 'Open 3D site' })).toBeInTheDocument();
+      expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'WORK');
+      expect(screen.getByTestId('dock')).toHaveAttribute('data-theme', 'light');
+      fireEvent.click(screen.getByRole('button', { name: 'Dismiss 3D site suggestion' }));
+      fireEvent.click(screen.getByText('Navigate About'));
+      act(() => vi.advanceTimersByTime(2000));
+      expect(screen.queryByRole('link', { name: 'Open 3D site' })).not.toBeInTheDocument();
+      expect(screen.getByTestId('main-stage')).toHaveAttribute('data-view', 'ABOUT');
+    } finally {
+      cleanup();
+      vi.useRealTimers();
+    }
   });
 });

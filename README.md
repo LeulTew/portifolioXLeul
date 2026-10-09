@@ -68,9 +68,9 @@ bun run dev
 
 ## Production routing and deployment
 
-Phones use `https://leul-t-agonafer-x.vercel.app`; desktops and tablets use
-`https://leul-t-agonafer.vercel.app`. The lightweight entry module checks the device
-before importing React, application CSS, or the portfolio app. It uses
+This site's entry keeps phones on `https://leul-t-agonafer-x.vercel.app` and sends
+desktops and tablets to `https://leul-t-agonafer.vercel.app`. The lightweight entry
+module checks the device before importing React, application CSS, or the portfolio app. It uses
 `location.replace` to change only the origin, preserving the path, query, and
 fragment. Old production aliases also redirect to the appropriate canonical site.
 
@@ -78,9 +78,19 @@ Phone detection uses iPhone, iPod, Windows Phone, or Android Mobile user agents,
 with `navigator.userAgentData.mobile === true` as a fallback. Explicit iPad/Tablet
 agents and iPadOS desktop-style agents (`Macintosh` with multiple touch points)
 are tablets, even if a mobile client hint is present. Window width, resizing, and
-touch support alone never trigger routing. No query override or persistent
-redirect preference is used. Both repositories must keep this policy in sync to
-avoid cross-site loops.
+touch support alone never trigger routing. This mobile entry does not store a
+redirect preference. The desktop site handles the visitor's choice of site.
+
+After the mobile app's first paint, a small notice offers the full interactive
+3D site. It appears after about 1.5 seconds, does not take focus, and stays until
+dismissed or the visitor follows its link. The link carries `?view=desktop` so
+the desktop site honors that choice instead of returning the visitor to mobile.
+The notice is shown only once per tab session, recorded in `sessionStorage`.
+If storage is unavailable, it is shown at most once during the current page load.
+Arrivals referred by the desktop origin or carrying `?from=desktop` suppress the
+notice for that session. The latter marker is removed with `history.replaceState`,
+preserving the remaining URL and history state. Its static appearance respects
+reduced motion, both themes, and the space above the navigation dock.
 
 Only the explicitly listed production hosts in `src/lib/deviceRouting.ts` route
 between sites. Localhost, custom domains, and Vercel preview URLs render normally

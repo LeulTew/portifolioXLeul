@@ -1,6 +1,7 @@
 import { useState, useRef, useLayoutEffect, useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import { Dock } from './components/Dock';
+import { DesktopSiteToast } from './components/DesktopSiteToast';
 import { MainStage } from './components/MainStage';
 import type { ViewState, ViewName, Theme } from './types';
 
@@ -80,6 +81,7 @@ export default function App() {
         theme={theme}
         toggleTheme={toggleTheme}
       />
+      <DesktopSiteToast />
     </div>
   );
 }
